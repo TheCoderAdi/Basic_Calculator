@@ -9,7 +9,7 @@ Calculator built with HTML-CSS-JS
 
 ### Demo
 
-to be added soon
+https://thecoderadi.github.io/Basic_Calculator/
 
 ### Author
 
