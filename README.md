@@ -4,7 +4,8 @@ Calculator built with HTML-CSS-JS
 
 ### Image_Demo
 
-to be added soon
+![demo_Image](https://user-images.githubusercontent.com/111285422/205265572-4324017f-4f77-47ff-952e-cb8c9f84be67.png)
+
 
 ### Demo
 
