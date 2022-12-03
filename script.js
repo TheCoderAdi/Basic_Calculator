@@ -1,61 +1,108 @@
-const btnOption = document.querySelectorAll(".orange");
 const screen = document.querySelector(".create");
-const numbers = document.querySelectorAll(".numbers");
-const clearAll = document.querySelector(".clear");
-const percent = document.querySelector(".percent");
-const plusMinus = document.querySelector(".plusMinus");
-let optState = false;
-let opt = "";
-let final = 0;
+const allButtons = document.querySelector(".buttons");
+let firstNumber = "0";
+let secondNumber = "0";
+let result = "0";
+let lastResult;
+let currentOperator;
+let evaluation = [];
 
-numbers.forEach((number) => {
-  number.addEventListener("click", showNumber);
+allButtons.addEventListener("click", function (e) {
+  e.stopImmediatePropagation();
+  onButtonPress(e);
+});
 
-  function showNumber() {
-    if (screen.textContent === "0" || optState) {
-      screen.textContent = "";
-    }
-    screen.textContent += this.textContent;
-    optState = false;
+function onButtonPress(e) {
+  switch (e.target.getAttribute("data-button-type")) {
+    case "digit":
+      AssignNumber(e);
+      break;
+    case "operator":
+      AssignOperator(e);
+      break;
   }
-});
-
-btnOption.forEach((operator) => {
-  operator.addEventListener("click", calculator);
-  function calculator() {
-    optState = true;
-    let newOption = this.textContent;
-    switch (opt) {
-      case "+":
-        screen.textContent = final + Number(screen.textContent);
-        break;
-      case "-":
-        screen.textContent = final - Number(screen.textContent);
-        break;
-      case "x":
-        screen.textContent = final * Number(screen.textContent);
-        break;
-      case "÷":
-        screen.textContent = (final / Number(screen.textContent)).toFixed(6);
-        break;
-    }
-    final = Number(screen.textContent);
-
-    opt = newOption;
+  render(e);
+}
+function AssignNumber(e) {
+  if (evaluation.length <= 1) {
+    firstNumber =
+      firstNumber === "0"
+        ? e.target.getAttribute("data-value")
+        : lastResult
+        ? e.target.getAttribute("data-value")
+        : firstNumber + e.target.getAttribute("data-value");
+    if (evaluation.length === 1) evaluation.shift();
+    evaluation.push(firstNumber);
+    result = firstNumber;
+    return;
   }
-});
 
-clearAll.addEventListener("click", function () {
-  screen.textContent = "0";
-});
-percent.addEventListener("click", function () {
-  screen.textContent = screen.textContent / 100;
-});
+  if (evaluation.length >= 2) {
+    secondNumber =
+      secondNumber === "0"
+        ? e.target.getAttribute("data-value")
+        : secondNumber + e.target.getAttribute("data-value");
+    if (evaluation.length === 3) {
+      evaluation.pop();
+    }
+    evaluation.push(secondNumber);
+    result = secondNumber;
+  }
+}
 
-plusMinus.addEventListener("click", function () {
-  if (Math.sign(screen.textContent) == "-1") {
-    screen.textContent = Math.abs(screen.textContent);
+function AssignOperator(e) {
+  currentOperator = e.target.getAttribute("data-value");
+  if (
+    currentOperator === "%" ||
+    currentOperator === "+/-" ||
+    currentOperator === "clear" ||
+    currentOperator === "="
+  ) {
+    return operate();
+  }
+  if (evaluation === 3) {
+    operate();
+  }
+  if (evaluation.length === 2) {
+    evaluation.pop();
+  }
+  evaluation.splice(1, 1, currentOperator);
+}
+function operate() {
+  if (currentOperator === "%" && evaluation.length) {
+    let number = parseInt(evaluation[evaluation.length - 1]);
+    result = (number / 100).toString();
+    result = result === "NaN" ? "Error" : result;
+    evaluation.splice(evaluation.length - 1, 1, result);
+    return;
+  }
+  if (currentOperator === "+/-" && evaluation.length) {
+    result = (evaluation[evaluation.length - 1] * -1).toString();
+    result = result === "NaN" ? "Error" : result;
+    evaluation.splice(evaluation.length - 1, 1, result);
+    return;
+  }
+  if (currentOperator === "clear") {
+    firstNumber = "0";
+    secondNumber = "0";
+    evaluation = [];
+    lastResult = "";
+    result = "0";
+    return;
+  }
+  if (evaluation.length === 3) {
+    result = eval(evaluation.join().replace(/,/g, "")).toString();
+    firstNumber = result;
+    secondNumber = "0";
+    evaluation = [firstNumber];
+    lastResult = result;
+    return;
+  }
+}
+function render(e) {
+  if (result.toString().length > 9) {
+    screen.textContent = parseFloat(result).toPrecision(3);
   } else {
-    screen.textContent = -screen.textContent;
+    screen.textContent = result;
   }
-});
+}

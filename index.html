@@ -13,25 +13,79 @@
         <div class="calc">
           <div class="create">0</div>
           <div class="buttons">
-            <button class="light clear">AC</button>
-            <button class="light plusMinus">+/-</button>
-            <button class="light percent">%</button>
-            <button class="orange">÷</button>
-            <button class="numbers">7</button>
-            <button class="numbers">8</button>
-            <button class="numbers">9</button>
-            <button class="orange">x</button>
-            <button class="numbers">4</button>
-            <button class="numbers">5</button>
-            <button class="numbers">6</button>
-            <button class="orange">-</button>
-            <button class="numbers">1</button>
-            <button class="numbers">2</button>
-            <button class="numbers">3</button>
-            <button class="orange">+</button>
-            <button class="numbers zero">0</button>
-            <button class="numbers">.</button>
-            <button class="orange">=</button>
+            <button
+              class="light clear"
+              data-button-type="operator"
+              data-value="clear"
+            >
+              AC
+            </button>
+            <button
+              class="light plusMinus"
+              data-button-type="operator"
+              data-value="+/-"
+            >
+              +/-
+            </button>
+            <button
+              class="light percent"
+              data-button-type="operator"
+              data-value="%"
+            >
+              %
+            </button>
+            <button class="orange" data-button-type="operator" data-value="/">
+              ÷
+            </button>
+            <button class="numbers" data-button-type="digit" data-value="7">
+              7
+            </button>
+            <button class="numbers" data-button-type="digit" data-value="8">
+              8
+            </button>
+            <button class="numbers" data-button-type="digit" data-value="9">
+              9
+            </button>
+            <button class="orange" data-button-type="operator" data-value="*">
+              x
+            </button>
+            <button class="numbers" data-button-type="digit" data-value="4">
+              4
+            </button>
+            <button class="numbers" data-button-type="digit" data-value="5">
+              5
+            </button>
+            <button class="numbers" data-button-type="digit" data-value="6">
+              6
+            </button>
+            <button class="orange" data-button-type="operator" data-value="-">
+              -
+            </button>
+            <button class="numbers" data-button-type="digit" data-value="1">
+              1
+            </button>
+            <button class="numbers" data-button-type="digit" data-value="2">
+              2
+            </button>
+            <button class="numbers" data-button-type="digit" data-value="3">
+              3
+            </button>
+            <button class="orange" data-button-type="operator" data-value="+">
+              +
+            </button>
+            <button
+              class="numbers zero"
+              data-button-type="digit"
+              data-value="0"
+            >
+              0
+            </button>
+            <button class="numbers" data-button-type="digit" data-value=".">
+              .
+            </button>
+            <button class="orange" data-button-type="operator" data-value="=">
+              =
+            </button>
           </div>
         </div>
       </div>
