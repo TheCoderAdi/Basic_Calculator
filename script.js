@@ -25,12 +25,9 @@ function onButtonPress(e) {
 }
 function AssignNumber(e) {
   if (evaluation.length <= 1) {
+    let num = e.target.getAttribute("data-value");
     firstNumber =
-      firstNumber === "0"
-        ? e.target.getAttribute("data-value")
-        : lastResult
-        ? e.target.getAttribute("data-value")
-        : firstNumber + e.target.getAttribute("data-value");
+      firstNumber === "0" ? num : lastResult ? num : firstNumber + num;
     if (evaluation.length === 1) evaluation.shift();
     evaluation.push(firstNumber);
     result = firstNumber;
@@ -38,10 +35,8 @@ function AssignNumber(e) {
   }
 
   if (evaluation.length >= 2) {
-    secondNumber =
-      secondNumber === "0"
-        ? e.target.getAttribute("data-value")
-        : secondNumber + e.target.getAttribute("data-value");
+    let num = e.target.getAttribute("data-value");
+    secondNumber = secondNumber === "0" ? num : secondNumber + num;
     if (evaluation.length === 3) {
       evaluation.pop();
     }
@@ -52,6 +47,16 @@ function AssignNumber(e) {
 
 function AssignOperator(e) {
   currentOperator = e.target.getAttribute("data-value");
+  if (currentOperator !== "=" && currentOperator !== "clear") {
+    evaluation.push(result);
+    evaluation.push(currentOperator);
+    firstNumber = result;
+    secondNumber = "0";
+    result = currentOperator;
+  }
+  if (currentOperator === "=") {
+    operate();
+  }
   if (
     currentOperator === "%" ||
     currentOperator === "+/-" ||
@@ -66,6 +71,7 @@ function AssignOperator(e) {
   if (evaluation.length === 2) {
     evaluation.pop();
   }
+
   evaluation.splice(1, 1, currentOperator);
 }
 function operate() {
